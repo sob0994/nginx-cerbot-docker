@@ -1,16 +1,19 @@
 version: '3'
 
 services:
-
     nginx: #docker-compose run -d nginx
         container_name: nginx_http
         restart: unless-stopped
-        image: nginx
+        image: nginx:alpine
         ports:
             - 80:80
             - 443:443
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         volumes:
             - ./nginx/init.conf:/etc/nginx/nginx.conf
+            - ./certbot/conf:/etc/letsencrypt
+            - ./certbot/www:/var/www/certbot
     
     certbot: #docker-compose run -d certbot
         image: certbot/certbot
@@ -18,7 +21,7 @@ services:
         volumes: 
         - ./certbot/conf:/etc/letsencrypt
         - ./certbot/www:/var/www/certbot
-        command: certonly --webroot -w /var/www/certbot --force-renewal --email {email} -d {domain} --agree-tos
+        command: certonly --webroot -w /var/www/certbot --force-renewal --email sob0994@gmail.com -d ksp.umboy.my.id --agree-tos
 
     nginxssl: #docker-compose run -d nginxssl
         container_name: nginx
@@ -27,7 +30,9 @@ services:
         ports:
             - 80:80
             - 443:443
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/ssl.conf:/etc/nginx/nginx.conf
             - ./certbot/conf:/etc/letsencrypt
             - ./certbot/www:/var/www/certbot
