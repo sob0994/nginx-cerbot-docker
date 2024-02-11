@@ -22,5 +22,9 @@ pg:
 	-p $(PG_PORT):5432 \
 	postgres:15-alpine
 
-
-# https://__@github.com/sob0994/nginx-cerbot-docker.git
+registry:
+	docker run -d \
+	--restart unless-stopped \
+	--name "REG" \
+	-p 5000:5000 \
+	registry:2
