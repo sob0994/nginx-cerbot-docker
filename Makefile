@@ -28,3 +28,6 @@ registry:
 	--name "REG" \
 	-p 5000:5000 \
 	registry:2
+
+runssl:
+	sudo docker compose up -d nginxssl --force-recreate
