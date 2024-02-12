@@ -21,7 +21,7 @@ services:
         volumes: 
         - ./certbot/conf:/etc/letsencrypt
         - ./certbot/www:/var/www/certbot
-        command: certonly --webroot -w /var/www/certbot --force-renewal --email sob0994@gmail.com -d *.umboy.my.id --agree-tos
+        command: certonly --webroot -w /var/www/certbot --force-renewal --email sob0994@gmail.com -d ksp.umboy.my.id -d images.umboy.my.id -d pg.umboy.my.id --agree-tos
 
     nginxssl: #docker-compose run -d nginxssl
         container_name: nginx
